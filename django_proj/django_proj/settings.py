@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'produto',
 ]
 
 MIDDLEWARE = [
@@ -74,15 +76,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'django_proj.wsgi.application'
 
 
-# Database
+# Database with DATABASE_URL
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+# https://pypi.org/project/dj-database-url/heroku config
+# if os.environ.get('DATABASE_URL') is None:
+#     os.environ['DATABASE_URL'] = 'postgresql://carlos@localhost:5432/GenialVendas'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': {}
 }
+
+# Change 'default' database configuration with $DATABASE_URL.
+DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
